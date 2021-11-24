@@ -1,10 +1,10 @@
 
 import './Header.css';
 
-function Header({ children }) {
+function Header({ title }) {
   return (
     <header>
-        <h1>{children}</h1>
+        <h1>{title}</h1>
     </header>
   );
 }

@@ -7,16 +7,20 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
     fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getTopTracks&user=${userName}&api_key=${apiKey}
       &limit=${limit}&period=${period}&nowplaying=true&format=json`)
       .then(response => {
+
+        if (response.status === 404) {
+          return null
+        } 
         if (response.ok) {//Checks whether the HTTP response is okay
           return response.json();//Extract the JSON from the response
-        }
+        } 
         throw new Error('error');
       })
       .then(data => updatelastFMData(data))
       .catch(() =>
         updatelastFMData({ error: 'Whoops! Something went wrong with Last.fm' })
       );
-  }, []);
+  });
   
   const buildLastFmData = () => {
     const { error } = lastFMData;
@@ -37,7 +41,6 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
           songName: d.name,
           artistName: d.artist.name,
           playCount: d.playcount,
-          rank: d.rank,
           url: d.url,
           image: d.image[2]["#text"]
         })
@@ -47,10 +50,10 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
         <div>
           <h2>Top {limit} Songs of the last {period} from {userName}</h2>
           <ul>
-            {topSongsNew.map((d) => {
+            {topSongsNew.map((d, i) => {
               return (<li>
                         <a href={d.url}>
-                          <img src={d.image} alt={d.songName} width="40px"/> #{d.rank} <b>{d.artistName} - {d.songName}</b> played {d.playCount} times
+                          <img src={d.image} alt={d.songName} width="40px"/> #{i+1} <b>{d.artistName} - {d.songName}</b> played {d.playCount} times
                         </a>
                       </li>)
             })}

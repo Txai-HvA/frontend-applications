@@ -36,7 +36,6 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
         topArtistsNew.push({
           artistName: d.name,
           playCount: d.playcount,
-          rank: d['@attr'].rank,
           url: d.url,
           image: d.image[2]["#text"]
         })
@@ -46,10 +45,10 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
         <div>
           <h2>Top {limit} Artists of the last {period} from {userName}</h2>
           <ul>
-            {topArtistsNew.map((d) => {
+            {topArtistsNew.map((d, i) => {
               return (<li>
                         <a href={d.url}>
-                          <img src={d.image} alt={d.artistName} width="40px"/> #{d.rank} <b>{d.artistName}</b> played {d.playCount} times
+                          <img src={d.image} alt={d.artistName} width="40px"/> #{i+1} <b>{d.artistName}</b> played {d.playCount} times
                         </a>
                       </li>)
             })}
