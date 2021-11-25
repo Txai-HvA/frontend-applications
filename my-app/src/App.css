@@ -11,6 +11,10 @@ body {
     font-family: "Montserrat", Helvetica, Arial, sans-serif;
 }
 
+ul {
+    list-style-type: none;
+}
+
 .App {
 
 }

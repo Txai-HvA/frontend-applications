@@ -53,7 +53,7 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
             {topSongsNew.map((d, i) => {
               return (<li>
                         <a href={d.url}>
-                          <img src={d.image} alt={d.songName} width="40px"/> #{i+1} <b>{d.artistName} - {d.songName}</b> played {d.playCount} times
+                          <img src={d.image} alt={d.songName} width="40px"/> #{i+1} {d.artistName} - {d.songName} played {d.playCount} times
                         </a>
                       </li>)
             })}

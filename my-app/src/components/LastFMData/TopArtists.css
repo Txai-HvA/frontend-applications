@@ -1,14 +1,23 @@
 #userArtistContainer {
     background-color: #a5ffef;
-    width: 45%;
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    padding: 20px;
+    justify-content: center;
 }
 
-#userArtistContainer label {
-    margin: 20px auto 20px;
+#userArtistContainer div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#userArtistContainer div label {
     font-weight: bold;
     color: #cb1582;
+    text-align: center;
+    margin: 20px 0;
 }
 
 
@@ -16,7 +25,22 @@
     font-weight: bold;
 }
 
-ul {
-    list-style-type: none;
+#userArtistLegend {
+    border: #cb1582 3px solid;
+    background-color: #cb158260;
+    padding: 20px 40px;
+    align-self: center;
+    color: #a5ffef;
+    margin-left: 20px;
+}
+
+#userArtistLegend li {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+#userArtistLegend a {
+    text-decoration: none;
+    color: #191414;
 }
 

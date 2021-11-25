@@ -20,8 +20,8 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
         updatelastFMData({ error: 'Whoops! Something went wrong with Last.fm' })
       );
   }, []);
-  
-  const buildLastFmData = () => {
+
+  const createPieChart = () => {
     const { error } = lastFMData;
 
     if (error) {
@@ -111,13 +111,15 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
 
 
       return (<div id="userArtistContainer"> 
-                <label>Top Artists</label>
-                <div id="userArtistPieChart" />
-                <ul>
+                <div>
+                  <label>Top Artists</label>
+                  <div id="userArtistPieChart" />
+                </div>
+                <ul id="userArtistLegend">
                   {topArtistsNew.map((d, i) => {
                     return (<li>
                               <a href={d.url}>
-                              <img src={d.image} alt={d.songName} width="40px"/> #{i+1} {d.artistName} 
+                                <span style={{color: "transparent", textShadow: `0 0 0 ${ordinalScalePie(i)}`}}>🎵</span> #{i+1} {d.artistName} 
                               </a>
                             </li>)
                   })}
@@ -126,7 +128,7 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
     }    
   };
 
-  return buildLastFmData();
+  return createPieChart();
 };
 
 
