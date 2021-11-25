@@ -20,7 +20,7 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
       .catch(() =>
         updatelastFMData({ error: 'Whoops! Something went wrong with Last.fm' })
       );
-  });
+  }, []);
   
   const buildLastFmData = () => {
     const { error } = lastFMData;

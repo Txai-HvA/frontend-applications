@@ -5,6 +5,12 @@ import './components/Filters/Filters.css';
 import { RecentTracks } from './components/LastFMData/RecentTracks';
 import { TopArtists } from './components/LastFMData/TopArtists';
 import { TopSongs } from './components/LastFMData/TopSongs';
+
+import BarChart from './components/LastFMData/Barchart'
+import { dataByYear } from "./components/LastFMData/data";
+import PieChart from './components/LastFMData/Piechart'
+
+
 import Header from './components/Header/Header';
 require('dotenv').config()
 
@@ -45,6 +51,7 @@ function App() {
       
       <TopSongs apiKey={process.env.REACT_APP_KEY} userName={isUserName} limit={5} period={"12month"} />
       <TopArtists apiKey={process.env.REACT_APP_KEY} userName={isUserName} limit={5} period={"12month"} />
+      {/* <BarChart data={dataByYear}/> */}
 
     </div>
   );

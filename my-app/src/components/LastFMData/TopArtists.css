@@ -1,0 +1,22 @@
+#userArtistContainer {
+    background-color: #a5ffef;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+}
+
+#userArtistContainer label {
+    margin: 20px auto 20px;
+    font-weight: bold;
+    color: #cb1582;
+}
+
+
+#userArtistPieChart text {
+    font-weight: bold;
+}
+
+ul {
+    list-style-type: none;
+}
+
