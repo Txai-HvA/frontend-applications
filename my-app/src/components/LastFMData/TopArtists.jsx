@@ -35,7 +35,7 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
 
       let topArtistsNew = [];
 
-      topArtists.map((d) => {
+      topArtists.forEach(d => {
         topArtistsNew.push({
           artistName: d.name,
           value: d.playcount,
@@ -48,7 +48,7 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
       let height = 500;
       //The radius of the pieplot is half the width or half the height (smallest one)
       let outerRadius = Math.min(width, height) / 2;
-
+      
       //ordinalScalePie, where each slice has a different color depending on playCount
       let ordinalScalePie = d3.scaleOrdinal()
         .domain(topArtistsNew)
@@ -64,7 +64,7 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
       d3.select('#userArtistPieChart')
         .select('svg')
         .remove();
-
+      
       //Creates new svg
       const svg = d3
         .select('#userArtistPieChart')
@@ -108,7 +108,9 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
           .text((d) => d.data.value)
             .style('fill', (_, i) => ordinalScaleText(i))
             .attr('transform', (d) => `translate(${arcGenerator.centroid(d)})`);//used to compute the midpoint of the centerline of the arc
-
+            
+      console.log(userArtistPieChartSVG._groups);
+            
 
       return (<div id="userArtistContainer"> 
                 <div>

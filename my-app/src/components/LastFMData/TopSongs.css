@@ -1,0 +1,53 @@
+/* Barchart Container */
+#userSongContainer {
+    padding: 20px;
+    background-color: #4100f5;
+    width: 100%;
+  }
+  
+  #userSongContainer label {
+    justify-content: center;
+    display: flex;
+    font-weight: bold;
+    color: #cdf564;
+  }
+  
+  /* Barchart */
+  #userSongBarChart {
+    padding-top: 20px;
+  }
+  
+  #userSongBarChart g image:hover {
+    opacity: 0.6;
+  }
+  
+  /* x-axis and y-axis line */
+  .domain, .tick line {
+    visibility: hidden;
+    display: none;
+  }
+  
+  /* Barchart text */
+  .axis {
+    font-size: smaller;
+    color: #cdf564;
+    transform: translate(-40px,0);
+    font-weight: bold;
+  }
+  
+  /* bars */
+  rect {
+    fill-opacity: 1;
+  }
+  rect:hover {
+    fill-opacity: 0.6;
+  }
+  
+  /* Play Count Label */
+  .playCountLabel {
+    opacity: 0;
+    font-size: smaller;
+    font-weight: bold;
+    fill: #cb1582;
+  }
+  
