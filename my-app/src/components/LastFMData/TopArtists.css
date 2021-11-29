@@ -1,5 +1,5 @@
 #userArtistContainer {
-    background-color: #a5ffef;
+    background-color: #ffffff;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -13,13 +13,12 @@
     align-items: center;
 }
 
-#userArtistContainer div label {
+#userArtistContainer div h2 {
     font-weight: bold;
-    color: #cb1582;
+    color: #191414;
     text-align: center;
     margin: 20px 0;
 }
-
 
 #userArtistPieChart text {
     font-weight: bold;
@@ -27,7 +26,7 @@
 
 #userArtistLegend {
     border: #cb1582 3px solid;
-    background-color: #cb158260;
+    background-color: #ffffff;
     padding: 20px 40px;
     align-self: center;
     color: #a5ffef;
@@ -43,4 +42,3 @@
     text-decoration: none;
     color: #191414;
 }
-

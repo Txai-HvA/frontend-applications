@@ -1,15 +1,11 @@
 import { React, useState, useEffect } from 'react';
 import './App.css';
 import './components/Filters/Filters.css';
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, Switch } from "react-router-dom";
 
 
 import { TopArtists } from './components/LastFMData/TopArtists';
 import { TopSongs } from './components/LastFMData/TopSongs';
-
-import BarChart from './components/LastFMData/Barchart'
-import { dataByYear } from "./components/LastFMData/data";
-
 
 import Header from './components/Header/Header';
 require('dotenv').config()
@@ -57,22 +53,23 @@ function App() {
                })}
             </select>
 
-            <Link to="/usergraphs">Show stats</Link>
+            <div>
+              <Link to="/userstats">Show user stats</Link>
+              <Link to="/genrestats">Show genre stats</Link>
+            </div>
         </section>
         } />
-        <Route path="/usergraphs" element={
+        <Route path="/userstats" element={
           <div>
             <TopSongs apiKey={process.env.REACT_APP_KEY} userName={isUserName} limit={isLimit} period={isPeriod}/>
             <TopArtists apiKey={process.env.REACT_APP_KEY} userName={isUserName} limit={isLimit} period={isPeriod}/>
           </div>
           } />
+        <Route path="/genrestats" element={
+          <div>
+          </div>
+          } />
       </Routes>
-
-
-       
-
-      {/*<BarChart data={dataByYear}/> */}
-
     </div>
   );
 }

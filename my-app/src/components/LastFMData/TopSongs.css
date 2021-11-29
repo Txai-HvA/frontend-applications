@@ -1,53 +1,53 @@
 /* Barchart Container */
 #userSongContainer {
     padding: 20px;
-    background-color: #4100f5;
+    background-color: #ffffff;
     width: 100%;
-  }
-  
-  #userSongContainer label {
+}
+
+#userSongContainer h2 {
     justify-content: center;
     display: flex;
     font-weight: bold;
-    color: #cdf564;
-  }
-  
-  /* Barchart */
-  #userSongBarChart {
+    color: #191414;
+}
+
+/* Barchart */
+#userSongBarChart {
     padding-top: 20px;
-  }
-  
-  #userSongBarChart g image:hover {
+}
+
+#userSongBarChart g image:hover {
     opacity: 0.6;
-  }
-  
-  /* x-axis and y-axis line */
-  .domain, .tick line {
+}
+
+/* x-axis and y-axis line */
+.domain,
+.tick line {
     visibility: hidden;
     display: none;
-  }
-  
-  /* Barchart text */
-  .axis {
+}
+
+/* Barchart text */
+.axis {
     font-size: smaller;
-    color: #cdf564;
-    transform: translate(-40px,0);
+    color: #191414;
+    transform: translate(-40px, 0);
     font-weight: bold;
-  }
-  
-  /* bars */
-  rect {
+}
+
+/* bars */
+rect {
     fill-opacity: 1;
-  }
-  rect:hover {
-    fill-opacity: 0.6;
-  }
-  
-  /* Play Count Label */
-  .playCountLabel {
+}
+rect:hover {
+    fill: #cb1582 !important;
+    color: #a5ffef;
+}
+
+/* Play Count Label */
+.playCountLabel {
     opacity: 0;
     font-size: smaller;
     font-weight: bold;
-    fill: #cb1582;
-  }
-  
+}
