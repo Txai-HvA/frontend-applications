@@ -6,44 +6,56 @@
     justify-content: center;
     font-size: 1em;
     width: 100%;
-    background-color: #4100f5;
+    background-color: #ffffff;
     text-align: center;
-    color: #a5ffef;
+    color: #191414;
 }
 
 .filters a {
     text-decoration: none;
     padding: 10px 20px;
-    background-color: #cdf564;
-    color: #4100f5;
+    background-color: #ffffff;
+    color: #1d4289;
     border-radius: 500px;
+    margin: 0 5px;
+    border: 1px solid #1d4289;
+}
+
+.filters a:nth-of-type(1) {
+    background-color: #1d4289;
+    color: #ffffff;
 }
 
 .filters a:hover {
     text-decoration: none;
-    background-color: #cb1582;
-    color: #a5ffef;
+    background-color: #007a78;
+    color: #ffffff;
+    border: 1px solid #007a78;
 }
 
-
-
-.filters input, .filters select {
+.filters input,
+.filters select {
     border: none;
     font-size: 1em;
     text-align: center;
     margin-bottom: 10px;
     padding: 10px 20px;
-    color: #4100f5;
-    background-color: #cdf564;
+    color: #1d4289;
+    background-color: #ffffff;
     border-radius: 500px;
     width: 250px;
-  }
-
-#filterLimit {
-    
+    border: 1px solid #1d4289;
 }
 
+.filters input:hover,
+.filters select:hover {
+    color: #007a78;
+    border: 1px solid #007a78;
+}
 
+.filters div {
+    margin-top: 20px;
+}
 
-
-  
+#filterLimit {
+}

@@ -2,16 +2,13 @@ header {
     min-height: 80px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+
     font-size: 1em;
     width: 100%;
-    background-color: #cb1582;
+    background-color: #d3273e;
     text-align: center;
-    color: #a5ffef;
-
+    color: #ffffff;
 }
 
 h1 {
-
 }

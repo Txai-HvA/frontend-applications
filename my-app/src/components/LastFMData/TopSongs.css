@@ -3,9 +3,10 @@
     padding: 20px;
     background-color: #ffffff;
     width: 100%;
+    border-bottom: 1px solid 191414;
 }
 
-#userSongContainer h2 {
+#userSongContainer h3 {
     justify-content: center;
     display: flex;
     font-weight: bold;
@@ -14,7 +15,6 @@
 
 /* Barchart */
 #userSongBarChart {
-    padding-top: 20px;
 }
 
 #userSongBarChart g image:hover {
@@ -32,7 +32,6 @@
 .axis {
     font-size: smaller;
     color: #191414;
-    transform: translate(-40px, 0);
     font-weight: bold;
 }
 
@@ -41,13 +40,12 @@ rect {
     fill-opacity: 1;
 }
 rect:hover {
-    fill: #cb1582 !important;
-    color: #a5ffef;
+    fill-opacity: 0.6;
 }
 
 /* Play Count Label */
 .playCountLabel {
     opacity: 0;
-    font-size: smaller;
+    font-size: 1em;
     font-weight: bold;
 }

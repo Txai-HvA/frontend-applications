@@ -1,0 +1,15 @@
+#stats {
+}
+#stats h2 {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+#stats a {
+    text-decoration: none;
+}
+
+#stats a {
+    color: #191414;
+}

@@ -32,7 +32,7 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
       const topArtists = lastFMData?.topartists?.artist;
 
       if (!topArtists) {
-        return <p>Loading</p>;
+        return <h2>Loading artists data... ⏳</h2>;
       }
 
       let topArtistsNew = [];
@@ -90,36 +90,10 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
                 .delay((d, i) => i * 500)
               .attr('d', arcGenerator)
               .style("opacity", "1");
-  
-
-
-
-
-        //Inverts the color of the given hex
-        const invertColor = (hex) => {
-          if (hex.indexOf('#') === 0) {
-              hex = hex.slice(1);
-          }
-          // convert 3-digit hex to 6-digits.
-          if (hex.length === 3) {
-              hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-          }
-          // invert color components
-          let r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
-              g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
-              b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
-          // pad each with zeros and return
-          return '#' + padZero(r) + padZero(g) + padZero(b);
-        }
-    
-        //Adds 0's if needed
-        const padZero = (str, len) => {
-          len = len || 2;
-          let zeros = new Array(len).join('0');
-          return (zeros + str).slice(-len);
-        }
-        //Source https://stackoverflow.com/questions/35969656/how-can-i-generate-the-opposite-color-according-to-current-color
-
+              
+        
+           
+        
         //Append text labels
         userArtistPieChartSVG
           .append('text')
@@ -136,9 +110,30 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
               .attr('transform', (d) => `translate(${arcGenerator.centroid(d)})`);//used to compute the midpoint of the centerline of the arc
       }
 
-
-
-
+      //Inverts the color of the given hex
+      const invertColor = (hex) => {
+        if (hex.indexOf('#') === 0) {
+            hex = hex.slice(1);
+        }
+        // convert 3-digit hex to 6-digits.
+        if (hex.length === 3) {
+            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+        }
+        // invert color components
+        let r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
+            g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
+            b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
+        // pad each with zeros and return
+        return '#' + padZero(r) + padZero(g) + padZero(b);
+      }
+  
+      //Adds 0's if needed
+      const padZero = (str, len) => {
+        len = len || 2;
+        let zeros = new Array(len).join('0');
+        return (zeros + str).slice(-len);
+      }
+      //Source https://stackoverflow.com/questions/35969656/how-can-i-generate-the-opposite-color-according-to-current-color
 
       if(topArtistsNew.length > 0) {
         //Wait 1 second till the graph can generate
@@ -149,14 +144,14 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
             
       return (<div id="userArtistContainer"> 
                 <div>
-                  <h2>Top Artists</h2>
+                  <h3>Top Artists 🎙️</h3>
                   <div id="userArtistPieChart" />
                 </div>
                 <ul id="userArtistLegend">
                   {topArtistsNew.map((d, i) => {
                     return (<li>
                               <a href={d.url}>
-                                <span style={{color: "transparent", textShadow: `0 0 0 ${colorHash.hex(d.artistName)}`}}>🎵</span> #{i+1} {d.artistName} 
+                                <span style={{color: "transparent", textShadow: `0 0 0 ${colorHash.hex(d.artistName)}`}}>🎙️</span> #{i+1} {d.artistName} 
                               </a>
                             </li>)
                   })}

@@ -5,6 +5,11 @@ import './TopSongs.css';
 import ColorHash from 'color-hash'
 
 export const TopSongs = ({ apiKey, userName, limit, period }) => {
+
+
+
+
+
   const [lastFMData, updatelastFMData] = useState({});
   let colorHash = new ColorHash();
   
@@ -36,7 +41,7 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
       const topSongs = lastFMData?.toptracks?.track;
 
       if (!topSongs) {
-        return <p>Loading</p>;
+        return <h2>Loading songs data... ⏳</h2>;
       }
 
       let topSongsNew = [];
@@ -56,10 +61,9 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
       //Creates the bar chart
       const createGraph = (topSongsNew) => {
         //marginLeft, width & height off the svg
-        const marginLeft = 320;
-        const width = 800;
+        const marginLeft = 500;
+        const width = 1000;
         const height = 800;
-
 
         //Removes the old svg
         d3.select('#userSongBarChart')
@@ -68,7 +72,7 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
 
         //Creates sources <svg> element
         const userSongBarChartSVG = d3.select("#userSongBarChart").append("svg")
-          .attr("width", width)
+          .attr("width", "100%")
           .attr("height", height)
           
         //Group is used to enforce given marginLeft
@@ -82,39 +86,49 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
         //Axis setup
         const yaxis = d3.axisLeft().scale(yscale);
         const g_yaxis = g.append("g").attr("class","y axis");
-
-
+        
         //update the scales
         xscale.domain([0, d3.max(topSongsNew, (d) => d.playCount)]);
         yscale.domain(topSongsNew.map((d, i) => `${d.artistName} - ${d.songName} - #${i+1}`)); //Mapping on artist and song name
-  
+
         //Render the y axis
         g_yaxis.call(yaxis);
-
+        
         //Fix for positioning
-        let rectX, labelY, labelX;
+        let labelY;
         switch(topSongsNew.length) {
-          case 5:  rectX = 94.5; labelY = 62; labelX = 350; break;
-          case 6:  rectX = 72;   labelY = 50; labelX = 330; break;
-          case 7:  rectX = 56;   labelY = 42; labelX = 320; break;
-          case 8:  rectX = 44;   labelY = 37; labelX = 310; break;
-          case 9:  rectX = 33.5; labelY = 32; labelX = 300; break;
-          case 10: rectX = 26.5; labelY = 27; labelX = 300; break;
-          case 11: rectX = 20.5; labelY = 25; labelX = 290; break;
-          case 12: rectX = 16;   labelY = 22; labelX = 290; break;
-          case 13: rectX = 12;   labelY = 20; labelX = 290; break;
-          case 14: rectX = 8;    labelY = 19; labelX = 290; break;
-          case 15: rectX = 4.5;  labelY = 17; labelX = 290; break;
-          case 16: rectX = 1.5;  labelY = 16; labelX = 290; break;
-          case 17: rectX = 0;    labelY = 15; labelX = 290; break;
-          case 18: rectX = -3.5; labelY = 13; labelX = 290; break;
-          case 19: rectX = -4;   labelY = 13; labelX = 290; break;
-          case 20: rectX = -6.5; labelY = 12; labelX = 290; break;
+          case 5:  labelY = 62; break;
+          case 6:  labelY = 50; break;
+          case 7:  labelY = 42; break;
+          case 8:  labelY = 37; break;
+          case 9:  labelY = 32; break;
+          case 10: labelY = 27; break;
+          case 11: labelY = 25; break;
+          case 12: labelY = 22; break;
+          case 13: labelY = 20; break;
+          case 14: labelY = 19; break;
+          case 15: labelY = 17; break;
+          case 16: labelY = 16; break;
+          case 17: labelY = 15; break;
+          case 18: labelY = 13; break;
+          case 19: labelY = 13; break;
+          case 20: labelY = 12; break;
         }
 
+      //gets the width of the image, turns into a negative number and changes the x coordinate of the songNames
+      userSongBarChartSVG.selectAll("text").attr("x", (Math.abs(yscale.bandwidth()) * -1.) - 20)
+      //Source https://stackoverflow.com/questions/5574144/positive-number-to-negative-number-in-javascript
 
-        //DATA JOIN
-        const rect = g.selectAll("rect").data(topSongsNew).join(
+
+
+
+
+
+
+
+
+      //DATA JOIN
+      const rect = g.selectAll("rect").data(topSongsNew).join(
         //ENTER 
         //new DOM elements
         (enter) => {
@@ -129,11 +143,8 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
         (exit) => exit.remove()
       );
 
-
-
       rect
         .attr("class", "bar")
-        .attr("x", rectX)
         .attr("rx", 2)//rounded corners
         .attr("height", yscale.bandwidth())//bar thickness
         .transition()
@@ -154,6 +165,10 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
 
 
 
+
+          
+
+
       //DATA JOIN
       const images = g.selectAll("image").data(topSongsNew).join(
         //ENTER 
@@ -169,15 +184,15 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
         //removes DOM elements that aren't associated with data
         (exit) => exit.remove()
       );
-
+        
       //Ads images in front of the bars
       images.attr("xlink:href", (d) => d.image)//gets image url
-        .attr("x", -38)
+        .attr("x", Math.abs(yscale.bandwidth()) * -1.)//gets the width of the image, turns into a negative number, so its next to the bar
         .attr("y", (d, i) => yscale(`${d.artistName} - ${d.songName} - #${i+1}`))
         .attr("width", yscale.bandwidth())
         .attr("height", yscale.bandwidth());
       //Source http://bl.ocks.org/hwangmoretime/c2c7128c5226f9199f87
-
+        
       //Links to the LastFM page of the song
       images.on("click", (i, d) => window.open(d.url));
 
@@ -187,34 +202,6 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
 
 
 
-
-
-
-      //Inverts the color of the given hex
-      const invertColor = (hex) => {
-        if (hex.indexOf('#') === 0) {
-          hex = hex.slice(1);
-        }
-        // convert 3-digit hex to 6-digits.
-        if (hex.length === 3) {
-          hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-        }
-        // invert color components
-        let r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
-            g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
-            b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
-          // pad each with zeros and return
-          return '#' + padZero(r) + padZero(g) + padZero(b);
-      }
-          
-      //Adds 0's if needed
-      const padZero = (str, len) => {
-        len = len || 2;
-        let zeros = new Array(len).join('0');
-        return (zeros + str).slice(-len);
-      }
-      //Source https://stackoverflow.com/questions/35969656/how-can-i-generate-the-opposite-color-according-to-current-color
-      
 
       //DATA JOIN
       const labels = userSongBarChartSVG.selectAll(".playCountLabel").data(topSongsNew).join(
@@ -238,13 +225,40 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
           artistColor = invertColor(artistColor);
           return artistColor;
         })
-        .attr("x", (d) => xscale(d.playCount) / 2 + labelX)
-        .attr("y", (d, i) => yscale(`${d.artistName} - ${d.songName} - #${i+1}`)  + labelY)
+        .attr("x", (d) => xscale(d.playCount) / 2 + (width / 2.2)) 
+        .attr("y", (d, i) => yscale(`${d.artistName} - ${d.songName} - #${i+1}`) + labelY)
         .attr("dy", ".75em")
         .transition().delay((d, i) =>  i * 50)//Animation where the labels fade in one by one
           .style("opacity", 1)
           .text((d) => d.playCount);
       }
+
+      
+      //Inverts the color of the given hex
+      const invertColor = (hex) => {
+        if (hex.indexOf('#') === 0) {
+          hex = hex.slice(1);
+        }
+        // convert 3-digit hex to 6-digits.
+        if (hex.length === 3) {
+          hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+        }
+        // invert color components
+        let r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
+            g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
+            b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
+            // pad each with zeros and return
+            return '#' + padZero(r) + padZero(g) + padZero(b);
+        }
+                
+      //Adds 0's if needed
+      const padZero = (str, len) => {
+        len = len || 2;
+        let zeros = new Array(len).join('0');
+        return (zeros + str).slice(-len);
+      }
+      //Source https://stackoverflow.com/questions/35969656/how-can-i-generate-the-opposite-color-according-to-current-color
+            
 
 
       if(topSongsNew.length > 0) {
@@ -256,7 +270,7 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
       
       return (
         <div id="userSongContainer">
-         <h2>Top Songs</h2>
+         <h3>Top Songs 🎵</h3>
          <div id="userSongBarChart">
          </div>
         </div>
