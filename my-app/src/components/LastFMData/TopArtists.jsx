@@ -89,6 +89,13 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
                 .delay((d, i) => i * 500)
               .attr('d', arcGenerator)
               .style("opacity", "1");
+
+        //Tooltip?
+        const path = userArtistPieChartSVG.selectAll('path');
+        path.on("mouseover", (i, d) => {
+          // console.log(d.data.artistName)
+
+        });
         
         //Append text labels
         userArtistPieChartSVG
