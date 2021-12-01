@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import useD3 from "../../hooks/useD3";
 import * as d3 from "d3";
 import './TopArtists.css';
 import ColorHash from 'color-hash'
@@ -90,9 +89,6 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
                 .delay((d, i) => i * 500)
               .attr('d', arcGenerator)
               .style("opacity", "1");
-              
-        
-           
         
         //Append text labels
         userArtistPieChartSVG

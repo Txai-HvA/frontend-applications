@@ -1,8 +1,8 @@
-import { React, useState, useEffect } from 'react';
+import { React } from 'react';
 import './App.css';
 import './components/Filters/Filters.css';
 import './components/LastFMData/Stats.css';
-import { Routes, Route, Link, Switch } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 
 import { useLocalStorage } from "./components/useLocalStorage";
 
@@ -37,16 +37,10 @@ function App() {
   const [isPeriod, setPeriod] = useLocalStorage("periode", "12month");
 
   //Event handlers
-  const limitHandler = (e) => { 
-    // const limit = e.target.value.replace(/\D/g, "");
-    // //Source https://stackoverflow.com/questions/43067719/how-to-allow-only-numbers-in-textbox-in-reactjs
-    setLimit(e.target.value); 
-  };
+  const limitHandler = (e) => { setLimit(e.target.value); };
   const userNameHandler = (e) => { setUserName(e.target.value); };
   const genreHandler = (e) => { setGenre(e.target.value); };
   const periodHandler = (e) => { setPeriod(e.target.value); };
-
-  
 
   return (
     <div className="App">
@@ -65,15 +59,12 @@ function App() {
                    return (<option value={d.value}>{d.text}</option>)
                })}
             </select>
-
-
             <label> in the last </label>    
             <select name="filterPeriod" id="filterPeriod" onChange={e => periodHandler(e)} value={isPeriod}>
                {periods.map((d) => {
                    return (<option value={d.value}>{d.text}</option>)
                })}
             </select>
-
             <div>
               <Link to="/userstats">Show user stats 📊</Link>
               <Link to="/genrestats">Show genre stats 📊</Link>

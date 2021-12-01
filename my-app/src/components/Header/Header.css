@@ -2,13 +2,9 @@ header {
     min-height: 80px;
     display: flex;
     flex-direction: column;
-
     font-size: 1em;
     width: 100%;
     background-color: #d3273e;
     text-align: center;
     color: #ffffff;
-}
-
-h1 {
 }

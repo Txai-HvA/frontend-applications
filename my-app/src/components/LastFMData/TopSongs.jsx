@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import useD3 from "../../hooks/useD3";
 import * as d3 from "d3";
 import './TopSongs.css';
 import ColorHash from 'color-hash'
 
 export const TopSongs = ({ apiKey, userName, limit, period }) => {
-
-
-
-
-
   const [lastFMData, updatelastFMData] = useState({});
   let colorHash = new ColorHash();
   
@@ -40,80 +34,81 @@ export const TopSongs = ({ apiKey, userName, limit, period }) => {
     } else {
       const topSongs = lastFMData?.toptracks?.track;
 
-      if (!topSongs) {
-        return <h2>Loading songs data... ⏳</h2>;
-      }
+    if (!topSongs) {
+      return <h2>Loading songs data... ⏳</h2>;
+    }
 
-      let topSongsNew = [];
+    let topSongsNew = [];
      
 
-      topSongs.forEach(d => {
-        topSongsNew.push({
-          songName: d.name,
-          artistName: d.artist.name,
-          playCount: d.playcount,
-          url: d.url,
-          image: d.image[2]["#text"]
-        })
-      });
+    topSongs.forEach(d => {
+      topSongsNew.push({
+        songName: d.name,
+        artistName: d.artist.name,
+        playCount: d.playcount,
+        url: d.url,
+        image: d.image[2]["#text"]
+      })
+    });
 
 
-      //Creates the bar chart
-      const createGraph = (topSongsNew) => {
-        //marginLeft, width & height off the svg
-        const marginLeft = 500;
-        const width = 1000;
-        const height = 800;
+    //Creates the bar chart
+    const createGraph = (topSongsNew) => {
+      //marginLeft, width & height off the svg
+      const marginLeft = 500;
+      const width = 1000;
+      const height = 800;
 
-        //Removes the old svg
-        d3.select('#userSongBarChart')
-          .select('svg')
-          .remove();
+      //Removes the old svg
+      d3.select('#userSongBarChart')
+        .select('svg')
+        .remove();
 
-        //Creates sources <svg> element
-        const userSongBarChartSVG = d3.select("#userSongBarChart").append("svg")
-          .attr("width", "100%")
-          .attr("height", height)
+      //Creates sources <svg> element
+      const userSongBarChartSVG = d3.select("#userSongBarChart").append("svg")
+        .attr("width", "100%")
+        .attr("height", height)
           
-        //Group is used to enforce given marginLeft
-        const g = userSongBarChartSVG.append("g")
-          .attr("transform", `translate(${marginLeft},${0})`);
+      //Group is used to enforce given marginLeft
+      const g = userSongBarChartSVG.append("g")
+        .attr("transform", `translate(${marginLeft},${0})`);
 
-        //Scales setup
-        const xscale = d3.scaleLinear().range([0, width]);//playCount
-        const yscale = d3.scaleBand().rangeRound([0, height]).paddingInner(0.2);//songName
+      //Scales setup
+      const xscale = d3.scaleLinear().range([0, width]);//playCount
+      const yscale = d3.scaleBand().rangeRound([0, height]).paddingInner(0.2);//songName
 
-        //Axis setup
-        const yaxis = d3.axisLeft().scale(yscale);
-        const g_yaxis = g.append("g").attr("class","y axis");
+      //Axis setup
+      const yaxis = d3.axisLeft().scale(yscale);
+      const g_yaxis = g.append("g").attr("class","y axis");
         
-        //update the scales
-        xscale.domain([0, d3.max(topSongsNew, (d) => d.playCount)]);
-        yscale.domain(topSongsNew.map((d, i) => `${d.artistName} - ${d.songName} - #${i+1}`)); //Mapping on artist and song name
+      //update the scales
+      xscale.domain([0, d3.max(topSongsNew, (d) => d.playCount)]);
+      yscale.domain(topSongsNew.map((d, i) => `${d.artistName} - ${d.songName} - #${i+1}`)); //Mapping on artist and song name
 
-        //Render the y axis
-        g_yaxis.call(yaxis);
+      //Render the y axis
+      g_yaxis.call(yaxis);
         
-        //Fix for positioning
-        let labelY;
-        switch(topSongsNew.length) {
-          case 5:  labelY = 62; break;
-          case 6:  labelY = 50; break;
-          case 7:  labelY = 42; break;
-          case 8:  labelY = 37; break;
-          case 9:  labelY = 32; break;
-          case 10: labelY = 27; break;
-          case 11: labelY = 25; break;
-          case 12: labelY = 22; break;
-          case 13: labelY = 20; break;
-          case 14: labelY = 19; break;
-          case 15: labelY = 17; break;
-          case 16: labelY = 16; break;
-          case 17: labelY = 15; break;
-          case 18: labelY = 13; break;
-          case 19: labelY = 13; break;
-          case 20: labelY = 12; break;
-        }
+      //Fix for positioning
+      let labelY;
+      switch(topSongsNew.length) {
+        case 5:  labelY = 62; break;
+        case 6:  labelY = 50; break;
+        case 7:  labelY = 42; break;
+        case 8:  labelY = 37; break;
+        case 9:  labelY = 32; break;
+        case 10: labelY = 27; break;
+        case 11: labelY = 25; break;
+        case 12: labelY = 22; break;
+        case 13: labelY = 20; break;
+        case 14: labelY = 19; break;
+        case 15: labelY = 17; break;
+        case 16: labelY = 16; break;
+        case 17: labelY = 15; break;
+        case 18: labelY = 13; break;
+        case 19: labelY = 13; break;
+        case 20: labelY = 12; break;
+        default: labelY = 62; break;
+      }
 
       //gets the width of the image, turns into a negative number and changes the x coordinate of the songNames
       userSongBarChartSVG.selectAll("text").attr("x", (Math.abs(yscale.bandwidth()) * -1.) - 20)
