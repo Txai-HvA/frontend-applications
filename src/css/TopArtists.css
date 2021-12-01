@@ -43,3 +43,15 @@
     text-decoration: none;
     color: #191414;
 }
+
+#artistInfo {
+    position: absolute;
+    width: 50%;
+    background-color: white;
+    padding: 20px;
+    border: #1d4289 3px solid;
+}
+
+#artistInfo a {
+    color: red;
+}
