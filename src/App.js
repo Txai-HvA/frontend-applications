@@ -67,7 +67,6 @@ function App() {
             </select>
             <div>
               <Link to="/userstats">Show user stats 📊</Link>
-              <Link to="/genrestats">Show genre stats 📊</Link>
             </div>
         </form>
         } />
@@ -75,11 +74,7 @@ function App() {
           <div id="stats">
             <h2><a href={`https://www.last.fm/user/${isUserName}`}>{isUserName}'s stats 📊</a></h2>
             <TopSongs apiKey={process.env.REACT_APP_KEY} userName={isUserName} limit={isLimit} period={isPeriod}/>
-            <TopArtists apiKey={process.env.REACT_APP_KEY} userName={isUserName} limit={isLimit} period={isPeriod}/>
-          </div>
-          } />
-        <Route path="/genrestats" element={
-          <div>
+            <TopArtists apiKey={process.env.REACT_APP_KEY} userName={isUserName} genre={isGenre} limit={isLimit} period={isPeriod}/>
           </div>
           } />
       </Routes>

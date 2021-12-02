@@ -1,9 +1,11 @@
 # frontend-applications
 
 This project uses LastFM data. LastFM records what songs and artists their users listen to, if they connect their Spotify with their LastFM account.
-This project shows LastFM statistics based on the given username or genre, amount of records and the period. Top songs are displayed in a barchart and top artists in a piechart.
+This project shows LastFM statistics based on the given username, genre, amount of records and the period. Top songs are displayed in a barchart and top artists in a piechart. There is also an option to get more info about an artist by clicking on artist name in the legend of the pie chart. The text under the legend compares the top artists of the user and the top artists of the given genre.
 
-![flow](img/flow.gif)
+![flow1](img/flow1.gif)
+![flow2](img/flow2.gif)
+![flow3](img/flow3.gif)
 
 ## Installation
 

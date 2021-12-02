@@ -3,30 +3,54 @@ import * as d3 from 'd3';
 import '../../css/TopArtists.css';
 import ColorHash from 'color-hash';
 
-export const TopArtists = ({ apiKey, userName, limit, period }) => {
-    const [topsingleArtistData, updateTopsingleArtistData] = useState({});
+export const TopArtists = ({ apiKey, userName, limit, period, genre }) => {
+    const [topArtistsData, updateTopArtists] = useState({});
+    const [topGenreArtistsData, updateGenreTopArtists] = useState({});
     const [singleArtistData, updateSingleArtist] = useState({});
     let colorHash = new ColorHash();
     let topArtists = [];
+    let sameArtists = [];
 
-    //Gets top artists data with the given username, limit, period and apiKey
     useEffect(() => {
-        fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getTopArtists&user=${userName}&api_key=${apiKey}
-      &limit=${limit}&period=${period}&nowplaying=true&format=json`)
-            .then((response) => {
-                if (response.ok) {
-                    //Checks whether the HTTP response is okay
-                    return response.json(); //Extract the JSON from the response
-                }
-                throw new Error('error');
-            })
-            .then((data) => updateTopsingleArtistData(data))
-            .catch(() =>
-                updateTopsingleArtistData({
-                    error: 'Whoops! Something went wrong with Last.fm',
+        //Gets top user artists with the given username, limit, period and apiKey
+        if (userName !== undefined) {
+            fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getTopArtists&user=${userName}&api_key=${apiKey}
+            &limit=${limit}&period=${period}&nowplaying=true&format=json`)
+                .then((response) => {
+                    if (response.ok) {
+                        //Checks whether the HTTP response is okay
+                        return response.json(); //Extract the JSON from the response
+                    }
+                    throw new Error('error');
                 })
-            );
-    }, [apiKey, userName, limit, period]);
+                .then((data) => updateTopArtists(data))
+                .catch(() =>
+                    updateTopArtists({
+                        error: 'Whoops! Something went wrong with Last.fm',
+                    })
+                );
+        }
+        //Gets top artists from a specific genre with the given genre, limit and apiKey
+        if (genre !== undefined) {
+            fetch(`https://ws.audioscrobbler.com/2.0/?method=tag.getTopArtists&tag=${genre}&api_key=${apiKey}
+            &limit=${limit}&format=json`)
+                .then((response) => {
+                    if (response.ok) {
+                        //Checks whether the HTTP response is okay
+                        return response.json(); //Extract the JSON from the response
+                    }
+                    throw new Error('error');
+                })
+                .then((data) => {
+                    updateGenreTopArtists(data?.topartists?.artist);
+                })
+                .catch(() =>
+                    updateTopArtists({
+                        error: 'Whoops! Something went wrong with Last.fm',
+                    })
+                );
+        }
+    }, [apiKey, userName, limit, period, genre]);
 
     //Gets a single artist data
     const getSingleArtist = (artist) => {
@@ -41,7 +65,7 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
                 throw new Error('error');
             })
             .then((data) => {
-                updateSingleArtist(data.artist);
+                updateSingleArtist(data);
             })
             .catch(() =>
                 updateSingleArtist({
@@ -151,16 +175,15 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
 
     //Gets the data value thats going to be used
     const filterData = () => {
-        const { error } = topsingleArtistData;
+        const { error } = topArtistsData;
 
         if (error) {
             return <p>{error}</p>;
         } else {
-            if (!topsingleArtistData?.topartists?.artist) {
+            if (!topArtistsData?.topartists?.artist) {
                 return <h2>Loading artists data... ⏳</h2>;
             }
-
-            topsingleArtistData?.topartists?.artist.forEach((d) => {
+            topArtistsData?.topartists?.artist.forEach((d) => {
                 topArtists.push({
                     artistName: d.name,
                     value: d.playcount,
@@ -171,21 +194,36 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
         }
     };
 
-    const getArtistInfo = (artistName) => {
-        getSingleArtist(artistName);
-        const artistInfo = d3.select('#artistInfo');
-        artistInfo.style('visibility', 'visible');
-        artistInfo.select('p').html(singleArtistData?.bio?.summary);
+    //Compares the top artist from a user with top artists from a genre
+    const compareTopArtists = () => {
+        if (topGenreArtistsData.length > 0) {
+            topGenreArtistsData.forEach((topGenreArtist) => {
+                topArtists.forEach((topArtist) => {
+                    if (topGenreArtist.name === topArtist.artistName) {
+                        sameArtists.push(topArtist.artistName);
+                    }
+                });
+            });
+        }
     };
 
+    const artistInfo = d3.select('#artistInfo');
+    //Gets the bio summary of a specific artist
+    const getArtistInfo = (artistName) => {
+        getSingleArtist(artistName);
+        artistInfo.style('visibility', 'visible');
+        artistInfo.select('p').html(singleArtistData?.artist?.bio?.summary);
+    };
+
+    //Hides the bio summary of a specific artist
     const hideArtistInfo = () => {
-        const artistInfo = d3.select('#artistInfo');
         artistInfo.style('visibility', 'hidden');
     };
 
     const createComponent = () => {
         filterData();
         createPieChart();
+        compareTopArtists();
 
         return (
             <div id="userArtistContainer">
@@ -193,29 +231,42 @@ export const TopArtists = ({ apiKey, userName, limit, period }) => {
                     <h3>Top Artists 🎙️</h3>
                     <div id="userArtistPieChart" />
                 </div>
-                <ul id="userArtistLegend">
-                    {topArtists.map((d, i) => {
-                        return (
-                            <li>
-                                <button
-                                    onClick={() => getArtistInfo(d.artistName)}
-                                >
-                                    <span
-                                        style={{
-                                            color: 'transparent',
-                                            textShadow: `0 0 0 ${colorHash.hex(
-                                                d.artistName
-                                            )}`,
-                                        }}
+                <div id="userArtistLegend">
+                    <ul>
+                        {topArtists.map((d, i) => {
+                            return (
+                                <li>
+                                    <button
+                                        onClick={() =>
+                                            getArtistInfo(d.artistName)
+                                        }
                                     >
-                                        🎙️
-                                    </span>{' '}
-                                    #{i + 1} {d.artistName}
-                                </button>
-                            </li>
-                        );
-                    })}
-                </ul>
+                                        <span
+                                            style={{
+                                                color: 'transparent',
+                                                textShadow: `0 0 0 ${colorHash.hex(
+                                                    d.artistName
+                                                )}`,
+                                            }}
+                                        >
+                                            🎙️
+                                        </span>{' '}
+                                        #{i + 1} {d.artistName}
+                                    </button>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                    <label>
+                        {userName}'s top {limit} artists that are also the top{' '}
+                        {limit} artists of {genre}:
+                    </label>
+                    <ul>
+                        {sameArtists.map((d, i) => {
+                            return <li>{d}</li>;
+                        })}
+                    </ul>
+                </div>
                 <div id="artistInfo">
                     <button onClick={() => hideArtistInfo()}>X</button>
                     <p></p>
